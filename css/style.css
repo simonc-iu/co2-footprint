@@ -1,0 +1,179 @@
+/* ---------- Schriften: lokal eingebunden (keine Verbindung zu Google) ---------- */
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("../fonts/IBMPlexSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("../fonts/IBMPlexSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("../fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("../fonts/IBMPlexSansArabic-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+/* Serifenschrift nur für Überschriften: gibt der Seite Bericht-Charakter */
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("../fonts/IBMPlexSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Serif";
+  src: url("../fonts/IBMPlexSerif-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* ---------- Gestaltungswerte an einer Stelle ---------- */
+:root {
+  --farbe-text: #1B2430;
+  --farbe-akzent: #0B5E7A;
+  --farbe-akzent-dunkel: #074054;
+  --farbe-balken: #CFE3EA;
+  --farbe-linie: #D5DBE1;
+  --farbe-fehler: #B3261E;
+  --farbe-meta: #5B6673;    /* gedämpfter Text, z. B. Quellenangaben */
+  --farbe-flaeche: #F4F6F8; /* ruhige Hintergrundfläche für den Footer */
+}
+
+/* ---------- Grundlagen ---------- */
+body {
+  font-family: "IBM Plex Sans", "IBM Plex Sans Arabic", sans-serif;
+  line-height: 1.6;
+  color: var(--farbe-text);
+  background-color: #FFFFFF;
+  /* Footer immer am unteren Rand */
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+body > .container { flex: 1; }
+
+a, .nav-link { color: var(--farbe-akzent); }
+a:hover, .nav-link:hover { color: var(--farbe-akzent-dunkel); }
+
+/* Sichtbarer Fokus für Tastaturnutzer (WCAG 2.4.7) */
+:focus-visible {
+  outline: 2px solid var(--farbe-akzent);
+  outline-offset: 2px;
+}
+
+main p { max-width: 70ch; } /* Zeilenlänge begrenzen (Bühler et al., 2023, S. 61) */
+
+/* ---------- Sprunglink: unsichtbar, bis er per Tab fokussiert wird ---------- */
+.skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: -100px;
+}
+.skip-link:focus {
+  top: 1rem;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background: #FFFFFF;
+}
+
+/* ---------- Header: weiß mit schmaler Kante statt voller Farbfläche ---------- */
+.site-header {
+  border-block-start: 4px solid var(--farbe-akzent-dunkel);
+  border-block-end: 1px solid var(--farbe-linie);
+}
+.brand-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--farbe-text);
+}
+.site-header .nav { gap: 1.5rem; }
+.site-header .nav-link {
+  padding-inline: 0;
+  color: var(--farbe-text);
+}
+.site-header .nav-link:hover { color: var(--farbe-akzent); }
+/* Aktuelle Seite: Unterstrich in Akzentfarbe */
+.site-header .nav-link[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--farbe-akzent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
+}
+
+/* ---------- Überschriften ---------- */
+h1, h2, h3 { font-weight: 600; }
+/* Überschriften in Serifenschrift; Arabisch fällt auf Plex Sans Arabic zurück */
+h1, h2 { font-family: "IBM Plex Serif", "IBM Plex Sans Arabic", serif; }
+h1 {
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.25rem);
+  line-height: 1.2;
+  max-width: 24ch;
+  text-wrap: balance; /* verteilt den Titel gleichmäßig auf die Zeilen */
+}
+/* Feine Linie über jedem Abschnitt, wie in einem gedruckten Bericht */
+h2 {
+  font-size: 1.25rem;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--farbe-text);
+  margin-block-end: 0.75rem;
+}
+
+/* ---------- Einleitungsbereich ---------- */
+main section { margin-block-start: 3rem; }
+.intro { margin-block-start: 0; }
+.intro h1 { margin-block-end: 1rem; }
+.intro .lead-text {
+  font-size: 1.1875rem;
+}
+/* Einleitung und Meta-Zeile gleich breit (ca. 62 Zeichen, vgl. Bühler et al., 2023, S. 61) */
+.intro .lead-text,
+.intro .meta { max-width: 41rem; }
+/* Meta-Zeile zwischen zwei feinen Linien, wie in einem Bericht */
+.intro .meta {
+  font-size: 0.875rem;
+  color: var(--farbe-meta);
+  margin-block: 1.5rem 0;
+  padding-block: 0.5rem;
+  border-block: 1px solid var(--farbe-linie);
+}
+
+/* ---------- Lokales Menü ---------- */
+.local-nav-titel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--farbe-meta);
+  margin-block-end: 0.5rem;
+}
+.local-nav .nav-link {
+  padding-inline: 0;
+  padding-block: 0.25rem;
+}
+.local-nav-inhalt {
+  position: sticky; /* bleibt beim Scrollen sichtbar */
+  top: 1rem;
+  padding-inline-start: 1rem;
+  border-inline-start: 2px solid var(--farbe-linie);
+}
+
+/* ---------- Footer: graue Fläche, gedämpfter Text ---------- */
+.site-footer {
+  margin-block-start: 4rem;
+  font-size: 0.875rem;
+  color: var(--farbe-meta);
+  background-color: var(--farbe-flaeche);
+  border-block-start: 1px solid var(--farbe-linie);
+}
+.site-footer > .container { align-items: center; }
+.site-footer .nav { gap: 1.5rem; }
+.site-footer .nav-link { padding-inline: 0; }

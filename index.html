@@ -1,1 +1,81 @@
-<h1>Test</h1>
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CO2-Emissionen nach Land und Unternehmen – CO2-Footprint</title>
+  <meta name="description" content="Öffentliche Übersicht fiktiver CO2-Emissionsdaten, filterbar nach Land und Unternehmen.">
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <!-- Sprunglink: Tastaturnutzer springen direkt zum Inhalt -->
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <!-- Header: Logo, Titel, globale Navigation -->
+  <header class="site-header">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+      <a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
+        <img src="img/logo.svg" alt="" width="40" height="40">
+        <span class="brand-name">CO₂-Footprint</span>
+      </a>
+      <nav aria-label="Hauptnavigation">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="index.html" aria-current="page">Emissionsdaten</a></li>
+          <li class="nav-item"><a class="nav-link" href="methodik.html">Methodik</a></li>
+          <li class="nav-item"><a class="nav-link" href="ueber-uns.html">Über uns</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container py-4">
+    <div class="row g-4">
+      <!-- Lokales Menü: Links innerhalb dieser Seite -->
+      <nav class="local-nav md:col-3 lg:col-2" aria-labelledby="local-nav-titel">
+        <div class="local-nav-inhalt">
+          <p class="local-nav-titel" id="local-nav-titel">Auf dieser Seite</p>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#ueberblick">Überblick</a></li>
+            <li class="nav-item"><a class="nav-link" href="#daten">Daten</a></li>
+            <li class="nav-item"><a class="nav-link" href="#hinweise">Hinweise zu den Daten</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Inhaltsbereich -->
+      <main id="inhalt" class="md:col-9 lg:col-10">
+        <section id="ueberblick" class="intro">
+          <h1>CO₂-Emissionen nach Land und Unternehmen</h1>
+          <p class="lead-text">Wie viel CO₂ stoßen Länder und große Unternehmen jährlich aus? Die Tabelle unten lässt sich nach Land und Unternehmen filtern und nach jeder Spalte sortieren.</p>
+          <p class="meta">Fiktiver Datensatz · Stand 2026 · Angaben in Millionen Tonnen CO₂</p>
+        </section>
+
+        <section id="daten">
+          <h2>Daten</h2>
+          <!-- Filter und Tabelle folgen später -->
+        </section>
+
+        <section id="hinweise">
+          <h2>Hinweise zu den Daten</h2>
+          <p>Alle Werte auf dieser Seite sind frei erfunden.</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer: rechtliche Hinweise -->
+  <footer class="site-footer">
+    <div class="container d-flex flex-wrap justify-content-between gap-3 py-3">
+      <nav aria-label="Rechtliches">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="impressum.html">Impressum</a></li>
+          <li class="nav-item"><a class="nav-link" href="datenschutz.html">Datenschutz</a></li>
+        </ul>
+      </nav>
+      <p class="mb-0">© 2026 NAME DER ORGANISATION (fiktive Organisation)</p>
+    </div>
+  </footer>
+</body>
+</html>
