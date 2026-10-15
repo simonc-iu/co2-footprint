@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Drei Balken wie in einer Rangliste: lang, mittel, kurz -->
+  <rect x="4" y="4" width="32" height="8" fill="#074054"/>
+  <rect x="4" y="16" width="22" height="8" fill="#074054"/>
+  <rect x="4" y="28" width="12" height="8" fill="#074054"/>
+</svg>
