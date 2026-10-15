@@ -1,0 +1,22 @@
+[
+  { "unternehmen": "Halvorsen Zement", "land": "Deutschland", "branche": "Baustoffe", "jahr": 2025, "emissionen": 14.2 },
+  { "unternehmen": "Brackwerth Stahl", "land": "Deutschland", "branche": "Stahl", "jahr": 2025, "emissionen": 21.8 },
+  { "unternehmen": "Odermoor Energie", "land": "Deutschland", "branche": "Energie", "jahr": 2024, "emissionen": 38.5 },
+  { "unternehmen": "Wuxian Power Group", "land": "China", "branche": "Energie", "jahr": 2025, "emissionen": 182.4 },
+  { "unternehmen": "Yunqiao Steel", "land": "China", "branche": "Stahl", "jahr": 2024, "emissionen": 96.7 },
+  { "unternehmen": "Corvane Petroleum", "land": "Vereinigte Staaten", "branche": "Öl und Gas", "jahr": 2025, "emissionen": 74.3 },
+  { "unternehmen": "Brightwell Airlines", "land": "Vereinigte Staaten", "branche": "Luftfahrt", "jahr": 2025, "emissionen": 19.6 },
+  { "unternehmen": "Sarvana Cement", "land": "Indien", "branche": "Baustoffe", "jahr": 2025, "emissionen": 27.9 },
+  { "unternehmen": "Sundaravel Power", "land": "Indien", "branche": "Energie", "jahr": 2024, "emissionen": 63.1 },
+  { "unternehmen": "Al-Rimal Petrochemie", "land": "Saudi-Arabien", "branche": "Chemie", "jahr": 2025, "emissionen": 31.4 },
+  { "unternehmen": "Najd Energy", "land": "Saudi-Arabien", "branche": "Öl und Gas", "jahr": 2024, "emissionen": 88.2 },
+  { "unternehmen": "Delta Nil Düngemittel", "land": "Ägypten", "branche": "Chemie", "jahr": 2025, "emissionen": 6.8 },
+  { "unternehmen": "Khaleej Aluminium", "land": "Vereinigte Arabische Emirate", "branche": "Metalle", "jahr": 2025, "emissionen": 12.5 },
+  { "unternehmen": "Pedra Turva Mineração", "land": "Brasilien", "branche": "Bergbau", "jahr": 2024, "emissionen": 9.3 },
+  { "unternehmen": "Kiyomura Heavy Industries", "land": "Japan", "branche": "Stahl", "jahr": 2025, "emissionen": 44.6 },
+  { "unternehmen": "Vaalkop Coal", "land": "Südafrika", "branche": "Bergbau", "jahr": 2025, "emissionen": 23.7 },
+  { "unternehmen": "Wisłoka Energia", "land": "Polen", "branche": "Energie", "jahr": 2024, "emissionen": 29.0 },
+  { "unternehmen": "Pilbrook Resources", "land": "Australien", "branche": "Bergbau", "jahr": 2025, "emissionen": 17.1 },
+  { "unternehmen": "Northmere Oil Sands", "land": "Kanada", "branche": "Öl und Gas", "jahr": 2025, "emissionen": 35.8 },
+  { "unternehmen": "Sulawana Nickel", "land": "Indonesien", "branche": "Metalle", "jahr": 2024, "emissionen": 8.4 }
+]
