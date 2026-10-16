@@ -4,6 +4,9 @@ let datensaetze = [];
 // Der <tbody>, in den die Zeilen eingefügt werden
 const tabelleInhalt = document.getElementById('tabelle-inhalt');
 
+// Die Statuszeile über der Tabelle
+const meldung = document.getElementById('daten-meldung');
+
 // Zahl im deutschen Format mit genau einer Nachkommastelle, z. B. 182,4
 function formatiereZahl(zahl) {
   return zahl.toLocaleString('de-DE', {
@@ -40,11 +43,29 @@ function zeigeTabelle(eintraege) {
   });
 }
 
-// Lädt die Daten vom eigenen Server und zeigt sie an
+// Lädt die Daten vom eigenen Server und zeigt sie an.
+// Geht etwas schief, erscheint eine Meldung statt einer leeren Tabelle.
 async function ladeDaten() {
-  const antwort = await fetch('data/emissionen.json');
-  datensaetze = await antwort.json();
-  zeigeTabelle(datensaetze);
+  meldung.textContent = 'Daten werden geladen …';
+
+  try {
+    const antwort = await fetch('data/emissionen.json');
+
+    // fetch meldet z. B. "Datei nicht gefunden" (404) nicht von selbst als Fehler
+    if (!antwort.ok) {
+      throw new Error('HTTP-Status ' + antwort.status);
+    }
+
+    datensaetze = await antwort.json();
+    zeigeTabelle(datensaetze);
+    meldung.textContent = '';
+  } catch (fehler) {
+    meldung.textContent = 'Die Daten konnten nicht geladen werden. Bitte die Seite später neu laden.';
+    meldung.classList.add('ist-fehler');
+    // Ohne Daten bliebe nur ein leerer Tabellenkopf stehen, daher ausblenden
+    tabelleInhalt.closest('table').hidden = true;
+    console.error(fehler); // technische Details nur für Entwickler in der Konsole
+  }
 }
 
 ladeDaten();

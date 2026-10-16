@@ -176,6 +176,15 @@ main section { margin-block-start: 3rem; }
   caption-side: top;
 }
 
+/* Statuszeile: gedämpft, im Fehlerfall rot und fett */
+.daten-meldung {
+  color: var(--farbe-meta);
+}
+.daten-meldung.ist-fehler {
+  color: var(--farbe-fehler);
+  font-weight: 600;
+}
+
 /* ---------- Footer: graue Fläche, gedämpfter Text ---------- */
 .site-footer {
   margin-block-start: 4rem;
