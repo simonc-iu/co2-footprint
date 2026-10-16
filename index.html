@@ -54,7 +54,22 @@
 
         <section id="daten">
           <h2>Daten</h2>
-          <!-- Filter und Tabelle folgen später -->
+          <div class="table-responsive">
+            <table class="table">
+              <caption>CO₂-Emissionen nach Unternehmen (fiktive Werte)</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Unternehmen</th>
+                  <th scope="col">Land</th>
+                  <th scope="col">Branche</th>
+                  <th scope="col" class="text-end">Jahr</th>
+                  <th scope="col" class="text-end">Emissionen in Mio. t</th>
+                </tr>
+              </thead>
+              <!-- Die Zeilen fügt js/app.js hier ein -->
+              <tbody id="tabelle-inhalt"></tbody>
+            </table>
+          </div>
         </section>
 
         <section id="hinweise">

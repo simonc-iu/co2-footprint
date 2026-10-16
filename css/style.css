@@ -47,6 +47,10 @@
   --farbe-fehler: #B3261E;
   --farbe-meta: #5B6673;    /* gedämpfter Text, z. B. Quellenangaben */
   --farbe-flaeche: #F4F6F8; /* ruhige Hintergrundfläche für den Footer */
+
+  /* Nur helles Farbschema: Bootstrap 6 würde sonst im Dunkelmodus des
+     Systems einzelne Bausteine (z. B. die Tabelle) dunkel färben. */
+  color-scheme: light;
 }
 
 /* ---------- Grundlagen ---------- */
@@ -164,6 +168,12 @@ main section { margin-block-start: 3rem; }
   top: 1rem;
   padding-inline-start: 1rem;
   border-inline-start: 2px solid var(--farbe-linie);
+}
+
+/* ---------- Datentabelle ---------- */
+/* Beschriftung über der Tabelle, wie in einem Datenbericht üblich */
+.table caption {
+  caption-side: top;
 }
 
 /* ---------- Footer: graue Fläche, gedämpfter Text ---------- */
