@@ -187,6 +187,12 @@ main section { margin-block-start: 3rem; }
 .emission-spur {
   flex: 1;
 }
+/* Auf schmalen Bildschirmen weniger Mindestbreite, damit die Spalte ins Bild passt */
+@media (width < 1024px) {
+  .emission {
+    min-inline-size: 6rem;
+  }
+}
 .emission-balken {
   display: block;
   block-size: 0.75rem;

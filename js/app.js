@@ -7,6 +7,10 @@ const tabelleInhalt = document.getElementById('tabelle-inhalt');
 // Die Statuszeile über der Tabelle
 const meldung = document.getElementById('daten-meldung');
 
+// Klassen für Spalten, die erst ab 1024 px Breite erscheinen.
+// Auf Smartphone und Tablet bleiben Unternehmen, Land und Emissionen sichtbar.
+const nurBreit = 'd-none lg:d-table-cell';
+
 // Höchster Emissionswert im gesamten Datensatz, Bezugsgröße für die Balken
 let hoechsterWert = 0;
 
@@ -66,8 +70,8 @@ function zeigeTabelle(eintraege) {
     zeile.append(
       erstelleZelle(eintrag.unternehmen),
       erstelleZelle(eintrag.land),
-      erstelleZelle(eintrag.branche),
-      erstelleZelle(eintrag.jahr, 'text-end'),
+      erstelleZelle(eintrag.branche, nurBreit),
+      erstelleZelle(eintrag.jahr, 'text-end ' + nurBreit),
       erstelleEmissionsZelle(eintrag.emissionen)
     );
     tabelleInhalt.append(zeile);
