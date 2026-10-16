@@ -7,6 +7,9 @@ const tabelleInhalt = document.getElementById('tabelle-inhalt');
 // Die Statuszeile über der Tabelle
 const meldung = document.getElementById('daten-meldung');
 
+// Höchster Emissionswert im gesamten Datensatz, Bezugsgröße für die Balken
+let hoechsterWert = 0;
+
 // Zahl im deutschen Format mit genau einer Nachkommastelle, z. B. 182,4
 function formatiereZahl(zahl) {
   return zahl.toLocaleString('de-DE', {
@@ -26,6 +29,34 @@ function erstelleZelle(text, klasse) {
   return zelle;
 }
 
+// Erzeugt die Zelle für die Emissionen: schmaler Balken plus Zahl.
+// Die Balkenlänge bezieht sich immer auf den höchsten Wert im gesamten
+// Datensatz, damit sie auch nach dem Filtern vergleichbar bleibt.
+function erstelleEmissionsZelle(wert) {
+  const zelle = document.createElement('td');
+
+  const inhalt = document.createElement('div');
+  inhalt.className = 'emission';
+
+  // Spur = verfügbare Breite, Balken = Anteil davon
+  const spur = document.createElement('span');
+  spur.className = 'emission-spur';
+  spur.setAttribute('aria-hidden', 'true'); // Wert steht schon als Zahl daneben
+
+  const balken = document.createElement('span');
+  balken.className = 'emission-balken';
+  balken.style.inlineSize = (wert / hoechsterWert * 100) + '%';
+  spur.append(balken);
+
+  const zahl = document.createElement('span');
+  zahl.className = 'emission-zahl';
+  zahl.textContent = formatiereZahl(wert);
+
+  inhalt.append(spur, zahl);
+  zelle.append(inhalt);
+  return zelle;
+}
+
 // Leert die Tabelle und baut für jeden Eintrag eine Zeile
 function zeigeTabelle(eintraege) {
   tabelleInhalt.replaceChildren();
@@ -37,7 +68,7 @@ function zeigeTabelle(eintraege) {
       erstelleZelle(eintrag.land),
       erstelleZelle(eintrag.branche),
       erstelleZelle(eintrag.jahr, 'text-end'),
-      erstelleZelle(formatiereZahl(eintrag.emissionen), 'text-end')
+      erstelleEmissionsZelle(eintrag.emissionen)
     );
     tabelleInhalt.append(zeile);
   });
@@ -57,6 +88,13 @@ async function ladeDaten() {
     }
 
     datensaetze = await antwort.json();
+
+    // Größten Wert einmal ermitteln: map holt alle Emissionen als Liste,
+    // ... (Spread-Syntax) übergibt sie einzeln an Math.max
+    hoechsterWert = Math.max(...datensaetze.map(function (eintrag) {
+      return eintrag.emissionen;
+    }));
+
     zeigeTabelle(datensaetze);
     meldung.textContent = '';
   } catch (fehler) {
