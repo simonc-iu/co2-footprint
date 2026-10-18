@@ -192,6 +192,29 @@ main section { margin-block-start: 3rem; }
   #daten th:nth-child(5) { inline-size: 28%; }
 }
 
+/* Sortierknöpfe im Spaltenkopf: sehen aus wie normaler Kopfzellentext,
+   der Fokusrahmen (:focus-visible) bleibt erhalten */
+.sortier-knopf {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+.sortier-knopf:hover {
+  color: var(--farbe-akzent);
+  text-decoration: underline;
+}
+.sortier-pfeil {
+  color: var(--farbe-akzent);
+  font-size: 0.75em;
+}
+
 /* Emissionsspalte: Balken (Länge proportional zum Wert) und Zahl nebeneinander.
    Logische Eigenschaften, damit der Balken in der RTL-Ansicht mitdreht. */
 .emission {

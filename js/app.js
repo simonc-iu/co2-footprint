@@ -1,4 +1,4 @@
-// Alle Einträge aus der JSON-Datei, Grundlage für Filter und (später) Sortierung
+// Alle Einträge aus der JSON-Datei, Grundlage für Filter und Sortierung
 let datensaetze = [];
 
 // Der <tbody>, in den die Zeilen eingefügt werden
@@ -13,6 +13,24 @@ const filterLand = document.getElementById('filter-land');
 const filterUnternehmen = document.getElementById('filter-unternehmen');
 const laenderListe = document.getElementById('laender-liste');
 const filterZuruecksetzen = document.getElementById('filter-zuruecksetzen');
+
+// Knöpfe in den Spaltenköpfen zum Sortieren
+const sortierKnoepfe = document.querySelectorAll('.sortier-knopf');
+
+// Aktuelle Sortierung. Beim Öffnen: höchste Emissionen zuerst (Rangliste)
+const sortierung = {
+  schluessel: 'emissionen',
+  richtung: 'absteigend'
+};
+
+// Spaltennamen für die Statuszeile, z. B. "sortiert nach Land"
+const spaltenNamen = {
+  unternehmen: 'Unternehmen',
+  land: 'Land',
+  branche: 'Branche',
+  jahr: 'Jahr',
+  emissionen: 'Emissionen'
+};
 
 // Klassen für Spalten, die erst ab 1024 px Breite erscheinen.
 // Auf Smartphone und Tablet bleiben Unternehmen, Land und Emissionen sichtbar.
@@ -120,22 +138,66 @@ function filtereDaten() {
   });
 }
 
-// Zeigt in der Statuszeile, wie viele Einträge passen
+// Sortiert die Einträge nach der aktuellen Spalte und Richtung.
+// Zahlen werden als Zahlen verglichen (9,3 vor 88,2), Texte nach
+// deutschen Regeln (Ägypten bei A).
+function sortiere(eintraege) {
+  const schluessel = sortierung.schluessel;
+  const faktor = sortierung.richtung === 'aufsteigend' ? 1 : -1;
+
+  return eintraege.sort(function (a, b) {
+    let vergleich;
+    if (typeof a[schluessel] === 'number') {
+      vergleich = a[schluessel] - b[schluessel];
+    } else {
+      vergleich = a[schluessel].localeCompare(b[schluessel], 'de');
+    }
+    return vergleich * faktor; // -1 dreht die Reihenfolge um
+  });
+}
+
+// Zeigt die Sortierung im Tabellenkopf: Pfeil für Sehende,
+// aria-sort für Screenreader. Nur die sortierte Spalte bekommt aria-sort.
+function zeigeSortierung() {
+  sortierKnoepfe.forEach(function (knopf) {
+    const kopfzelle = knopf.closest('th');
+    const pfeil = knopf.querySelector('.sortier-pfeil');
+
+    if (knopf.dataset.schluessel === sortierung.schluessel) {
+      const aufsteigend = sortierung.richtung === 'aufsteigend';
+      kopfzelle.setAttribute('aria-sort', aufsteigend ? 'ascending' : 'descending');
+      pfeil.textContent = aufsteigend ? '▲' : '▼';
+    } else {
+      kopfzelle.removeAttribute('aria-sort');
+      pfeil.textContent = '';
+    }
+  });
+}
+
+// Zeigt in der Statuszeile, wie viele Einträge passen und wie sortiert ist
 function zeigeTrefferanzahl(anzahl) {
   if (anzahl === 0) {
     meldung.textContent = 'Keine Einträge gefunden. Bitte die Filter ändern oder zurücksetzen.';
-  } else if (anzahl === datensaetze.length) {
-    meldung.textContent = 'Alle ' + anzahl + ' Einträge';
-  } else {
-    meldung.textContent = anzahl + ' von ' + datensaetze.length + ' Einträgen';
+    return;
   }
+
+  let text;
+  if (anzahl === datensaetze.length) {
+    text = 'Alle ' + anzahl + ' Einträge';
+  } else {
+    text = anzahl + ' von ' + datensaetze.length + ' Einträgen';
+  }
+  meldung.textContent = text + ', sortiert nach ' + spaltenNamen[sortierung.schluessel] +
+    ' (' + sortierung.richtung + ')';
 }
 
 // Filtert, baut die Tabelle neu und aktualisiert die Trefferanzahl.
 // Ohne Treffer wird die Tabelle ausgeblendet, der Hinweis steht darüber.
 function aktualisiereAnsicht() {
-  const treffer = filtereDaten();
+  // filter liefert eine neue Liste, sortiert wird also nie der Originaldatensatz
+  const treffer = sortiere(filtereDaten());
   zeigeTabelle(treffer);
+  zeigeSortierung();
   zeigeTrefferanzahl(treffer.length);
   tabelleInhalt.closest('table').hidden = treffer.length === 0;
 }
@@ -155,6 +217,24 @@ filterZuruecksetzen.addEventListener('click', function () {
   filterUnternehmen.value = '';
   aktualisiereAnsicht();
   filterLand.focus();
+});
+
+// Klick auf einen Spaltenkopf: gleiche Spalte → Richtung umdrehen,
+// neue Spalte → Zahlen zuerst absteigend (größte oben), Texte aufsteigend (A bis Z)
+sortierKnoepfe.forEach(function (knopf) {
+  knopf.addEventListener('click', function () {
+    const schluessel = knopf.dataset.schluessel;
+
+    if (sortierung.schluessel === schluessel) {
+      sortierung.richtung = sortierung.richtung === 'aufsteigend' ? 'absteigend' : 'aufsteigend';
+    } else {
+      sortierung.schluessel = schluessel;
+      const istZahl = typeof datensaetze[0][schluessel] === 'number';
+      sortierung.richtung = istZahl ? 'absteigend' : 'aufsteigend';
+    }
+
+    aktualisiereAnsicht();
+  });
 });
 
 // Lädt die Daten vom eigenen Server und zeigt sie an.
