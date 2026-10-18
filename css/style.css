@@ -26,12 +26,6 @@
 /* Serifenschrift nur für Überschriften: gibt der Seite Bericht-Charakter */
 @font-face {
   font-family: "IBM Plex Serif";
-  src: url("../fonts/IBMPlexSerif-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "IBM Plex Serif";
   src: url("../fonts/IBMPlexSerif-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-display: swap;
@@ -101,6 +95,10 @@ main p { max-width: 70ch; } /* Zeilenlänge begrenzen (Bühler et al., 2023, S. 
   color: var(--farbe-text);
 }
 .site-header .nav { gap: 1.5rem; }
+/* Sehr schmale Bildschirme: weniger Abstand, damit die drei Links in eine Zeile passen */
+@media (width < 400px) {
+  .site-header .nav { gap: 0.75rem; font-size: 0.9375rem; }
+}
 .site-header .nav-link {
   padding-inline: 0;
   color: var(--farbe-text);
@@ -162,6 +160,7 @@ main section { margin-block-start: 3rem; }
 .local-nav .nav-link {
   padding-inline: 0;
   padding-block: 0.25rem;
+  white-space: normal; /* Bootstrap verbietet den Umbruch, lange Linktexte ragten sonst in den Inhalt */
 }
 .local-nav-inhalt {
   position: sticky; /* bleibt beim Scrollen sichtbar */
@@ -219,6 +218,30 @@ main section { margin-block-start: 3rem; }
   min-inline-size: 5ch;
   text-align: end;
   font-variant-numeric: tabular-nums;
+}
+
+/* Lange Wörter (z. B. zusammengesetzte Firmennamen) innerhalb der Zelle trennen,
+   statt in die Nachbarspalte zu schreiben. Silbentrennung nach lang="de". */
+#daten td {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Kleine Smartphones (unter 576 px, z. B. 320 px): etwas kleinere Tabellenschrift,
+   ausgeglichene Spalten, Balken unter der Zahl statt daneben. So bekommt der Balken
+   die ganze Spaltenbreite und nichts wird abgeschnitten. */
+@media (width < 576px) {
+  #daten .table { font-size: 0.875rem; }
+  #daten th:nth-child(1) { inline-size: 34%; }
+  #daten th:nth-child(2) { inline-size: 33%; }
+  #daten th:nth-child(5) { inline-size: 33%; }
+  .emission {
+    flex-direction: column-reverse; /* Zahl oben, Balken darunter */
+    align-items: stretch;
+    gap: 0.25rem;
+    min-inline-size: 0;
+  }
+  .emission-balken { block-size: 0.5rem; }
 }
 
 /* Filter: Felder nebeneinander, auf schmalen Bildschirmen untereinander */
