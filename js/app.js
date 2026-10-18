@@ -1,4 +1,4 @@
-// Alle Einträge aus der JSON-Datei (werden später für Filter und Sortierung gebraucht)
+// Alle Einträge aus der JSON-Datei, Grundlage für Filter und (später) Sortierung
 let datensaetze = [];
 
 // Der <tbody>, in den die Zeilen eingefügt werden
@@ -6,6 +6,13 @@ const tabelleInhalt = document.getElementById('tabelle-inhalt');
 
 // Die Statuszeile über der Tabelle
 const meldung = document.getElementById('daten-meldung');
+
+// Filterformular und seine Bestandteile
+const filterFormular = document.getElementById('filter');
+const filterLand = document.getElementById('filter-land');
+const filterUnternehmen = document.getElementById('filter-unternehmen');
+const laenderListe = document.getElementById('laender-liste');
+const filterZuruecksetzen = document.getElementById('filter-zuruecksetzen');
 
 // Klassen für Spalten, die erst ab 1024 px Breite erscheinen.
 // Auf Smartphone und Tablet bleiben Unternehmen, Land und Emissionen sichtbar.
@@ -78,6 +85,78 @@ function zeigeTabelle(eintraege) {
   });
 }
 
+// Füllt die Vorschlagsliste des Länderfelds: jedes Land nur einmal, alphabetisch.
+// new Set(...) entfernt doppelte Einträge, localeCompare sortiert deutsch (Ä bei A).
+function fuelleLaenderListe() {
+  const laender = [...new Set(datensaetze.map(function (eintrag) {
+    return eintrag.land;
+  }))];
+  laender.sort(function (a, b) {
+    return a.localeCompare(b, 'de');
+  });
+
+  laender.forEach(function (land) {
+    const option = document.createElement('option');
+    option.value = land;
+    laenderListe.append(option);
+  });
+}
+
+// Macht Texte vergleichbar: Leerzeichen am Rand weg, alles kleingeschrieben
+function normalisiere(text) {
+  return text.trim().toLocaleLowerCase('de-DE');
+}
+
+// Liefert alle Einträge, die zu beiden Filterfeldern passen (Teilwort genügt).
+// Die Eingaben werden nur verglichen und nie in die Seite geschrieben,
+// eingeschleuster Code kann deshalb nicht ausgeführt werden.
+function filtereDaten() {
+  const land = normalisiere(filterLand.value);
+  const unternehmen = normalisiere(filterUnternehmen.value);
+
+  return datensaetze.filter(function (eintrag) {
+    return normalisiere(eintrag.land).includes(land) &&
+      normalisiere(eintrag.unternehmen).includes(unternehmen);
+  });
+}
+
+// Zeigt in der Statuszeile, wie viele Einträge passen
+function zeigeTrefferanzahl(anzahl) {
+  if (anzahl === 0) {
+    meldung.textContent = 'Keine Einträge gefunden. Bitte die Filter ändern oder zurücksetzen.';
+  } else if (anzahl === datensaetze.length) {
+    meldung.textContent = 'Alle ' + anzahl + ' Einträge';
+  } else {
+    meldung.textContent = anzahl + ' von ' + datensaetze.length + ' Einträgen';
+  }
+}
+
+// Filtert, baut die Tabelle neu und aktualisiert die Trefferanzahl.
+// Ohne Treffer wird die Tabelle ausgeblendet, der Hinweis steht darüber.
+function aktualisiereAnsicht() {
+  const treffer = filtereDaten();
+  zeigeTabelle(treffer);
+  zeigeTrefferanzahl(treffer.length);
+  tabelleInhalt.closest('table').hidden = treffer.length === 0;
+}
+
+// Jede Eingabe in einem der Felder filtert sofort. Das input-Event
+// steigt vom Feld zum Formular auf, daher genügt ein Listener am Formular.
+filterFormular.addEventListener('input', aktualisiereAnsicht);
+
+// Enter im Feld würde das Formular absenden und die Seite neu laden
+filterFormular.addEventListener('submit', function (ereignis) {
+  ereignis.preventDefault();
+});
+
+// Beide Felder leeren, alle Einträge zeigen, Fokus zurück ins erste Feld
+filterZuruecksetzen.addEventListener('click', function () {
+  filterLand.value = '';
+  filterUnternehmen.value = '';
+  aktualisiereAnsicht();
+  filterLand.focus();
+});
+
 // Lädt die Daten vom eigenen Server und zeigt sie an.
 // Geht etwas schief, erscheint eine Meldung statt einer leeren Tabelle.
 async function ladeDaten() {
@@ -99,13 +178,14 @@ async function ladeDaten() {
       return eintrag.emissionen;
     }));
 
-    zeigeTabelle(datensaetze);
-    meldung.textContent = '';
+    fuelleLaenderListe();
+    aktualisiereAnsicht();
   } catch (fehler) {
     meldung.textContent = 'Die Daten konnten nicht geladen werden. Bitte die Seite später neu laden.';
     meldung.classList.add('ist-fehler');
     // Ohne Daten bliebe nur ein leerer Tabellenkopf stehen, daher ausblenden
     tabelleInhalt.closest('table').hidden = true;
+    filterFormular.hidden = true; // ohne Daten gibt es nichts zu filtern
     console.error(fehler); // technische Details nur für Entwickler in der Konsole
   }
 }

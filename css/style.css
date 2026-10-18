@@ -176,6 +176,23 @@ main section { margin-block-start: 3rem; }
   caption-side: top;
 }
 
+/* Feste Spaltenbreiten: Beim Filtern springen die Spalten sonst je nach Inhalt,
+   und die Balken wären zwischen den Ansichten nicht mehr vergleichbar.
+   Die Breiten gelten über die Kopfzellen (table-layout: fixed). */
+#daten .table {
+  table-layout: fixed;
+}
+#daten th:nth-child(1) { inline-size: 38%; } /* Unternehmen */
+#daten th:nth-child(2) { inline-size: 30%; } /* Land */
+#daten th:nth-child(5) { inline-size: 32%; } /* Emissionen */
+@media (width >= 1024px) {
+  #daten th:nth-child(1) { inline-size: 27%; }
+  #daten th:nth-child(2) { inline-size: 22%; }
+  #daten th:nth-child(3) { inline-size: 15%; } /* Branche */
+  #daten th:nth-child(4) { inline-size: 8%; }  /* Jahr */
+  #daten th:nth-child(5) { inline-size: 28%; }
+}
+
 /* Emissionsspalte: Balken (Länge proportional zum Wert) und Zahl nebeneinander.
    Logische Eigenschaften, damit der Balken in der RTL-Ansicht mitdreht. */
 .emission {
@@ -202,6 +219,27 @@ main section { margin-block-start: 3rem; }
   min-inline-size: 5ch;
   text-align: end;
   font-variant-numeric: tabular-nums;
+}
+
+/* Filter: Felder nebeneinander, auf schmalen Bildschirmen untereinander */
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  margin-block-end: 1rem;
+}
+.filter-feld {
+  flex: 1 1 14rem;
+  max-inline-size: 20rem;
+}
+.filter .form-label {
+  font-weight: 600;
+}
+/* Knopf in den Farben der Seite statt in Bootstrap-Blau */
+.filter .btn {
+  --bs-btn-color: var(--farbe-akzent);
+  --bs-btn-border-color: var(--farbe-akzent);
 }
 
 /* Statuszeile: gedämpft, im Fehlerfall rot und fett */

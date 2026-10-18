@@ -54,7 +54,27 @@
 
         <section id="daten">
           <h2>Daten</h2>
-          <!-- Statuszeile: Laden, Fehler, später Trefferanzahl -->
+
+          <!-- Filter: wirken sofort beim Tippen, ein Absenden ist nicht nötig -->
+          <form id="filter" class="filter" role="search" aria-label="Tabelle filtern">
+            <div class="filter-feld">
+              <label for="filter-land" class="form-label">Land</label>
+              <input type="search" id="filter-land" class="form-control"
+                     list="laender-liste" autocomplete="off" maxlength="60">
+              <!-- Vorschläge für das Länderfeld, js/app.js erzeugt sie aus den Daten -->
+              <datalist id="laender-liste"></datalist>
+            </div>
+            <div class="filter-feld">
+              <label for="filter-unternehmen" class="form-label">Unternehmen</label>
+              <input type="search" id="filter-unternehmen" class="form-control"
+                     autocomplete="off" maxlength="60">
+            </div>
+            <button type="button" id="filter-zuruecksetzen" class="btn btn-outline">
+              Filter zurücksetzen
+            </button>
+          </form>
+
+          <!-- Statuszeile: Laden, Fehler, Trefferanzahl -->
           <p id="daten-meldung" class="daten-meldung" role="status"></p>
           <div class="table-responsive">
             <table class="table">
