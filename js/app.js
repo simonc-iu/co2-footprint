@@ -179,13 +179,12 @@ async function ladeDaten() {
     }));
 
     fuelleLaenderListe();
-    aktualisiereAnsicht();
+    aktualisiereAnsicht(); // zeigt auch die Tabelle, sofern es Treffer gibt
+    filterFormular.hidden = false;
   } catch (fehler) {
     meldung.textContent = 'Die Daten konnten nicht geladen werden. Bitte die Seite später neu laden.';
     meldung.classList.add('ist-fehler');
-    // Ohne Daten bliebe nur ein leerer Tabellenkopf stehen, daher ausblenden
-    tabelleInhalt.closest('table').hidden = true;
-    filterFormular.hidden = true; // ohne Daten gibt es nichts zu filtern
+    // Filter und Tabelle bleiben versteckt (im HTML mit hidden vorbelegt)
     console.error(fehler); // technische Details nur für Entwickler in der Konsole
   }
 }

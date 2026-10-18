@@ -55,8 +55,18 @@
         <section id="daten">
           <h2>Daten</h2>
 
-          <!-- Filter: wirken sofort beim Tippen, ein Absenden ist nicht nötig -->
-          <form id="filter" class="filter" role="search" aria-label="Tabelle filtern">
+          <!-- Ohne JavaScript gibt es keine Tabelle (Daten werden per JS geladen) -->
+          <noscript>
+            <p class="daten-meldung ist-fehler">
+              Für die Tabelle und die Filter wird JavaScript benötigt.
+              Bitte JavaScript im Browser aktivieren.
+            </p>
+          </noscript>
+
+          <!-- Filter: wirken sofort beim Tippen, ein Absenden ist nicht nötig.
+               Filter und Tabelle sind zunächst versteckt, js/app.js zeigt sie,
+               sobald die Daten geladen sind. -->
+          <form id="filter" class="filter" role="search" aria-label="Tabelle filtern" hidden>
             <div class="filter-feld">
               <label for="filter-land" class="form-label">Land</label>
               <input type="search" id="filter-land" class="form-control"
@@ -77,7 +87,7 @@
           <!-- Statuszeile: Laden, Fehler, Trefferanzahl -->
           <p id="daten-meldung" class="daten-meldung" role="status"></p>
           <div class="table-responsive">
-            <table class="table">
+            <table class="table" hidden>
               <caption>CO₂-Emissionen nach Unternehmen (fiktive Werte)</caption>
               <thead>
                 <tr>
