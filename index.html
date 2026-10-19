@@ -70,14 +70,14 @@
             <div class="filter-feld">
               <label for="filter-land" class="form-label">Land</label>
               <input type="search" id="filter-land" class="form-control"
-                     list="laender-liste" autocomplete="off" maxlength="60">
+                     list="laender-liste" autocomplete="off" spellcheck="false" maxlength="60">
               <!-- Vorschläge für das Länderfeld, js/app.js erzeugt sie aus den Daten -->
               <datalist id="laender-liste"></datalist>
             </div>
             <div class="filter-feld">
               <label for="filter-unternehmen" class="form-label">Unternehmen</label>
               <input type="search" id="filter-unternehmen" class="form-control"
-                     autocomplete="off" maxlength="60">
+                     autocomplete="off" spellcheck="false" maxlength="60">
             </div>
             <button type="button" id="filter-zuruecksetzen" class="btn btn-outline">
               Filter zurücksetzen
