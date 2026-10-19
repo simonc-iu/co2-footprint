@@ -16,12 +16,18 @@
   src: url("../fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");
   font-weight: 400;
   font-display: swap;
+  /* Nur für arabische Zeichen: Der Browser lädt die Datei erst, wenn
+     arabischer Text auf der Seite steht (sonst 230 KB umsonst) */
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 @font-face {
   font-family: "IBM Plex Sans Arabic";
   src: url("../fonts/IBMPlexSansArabic-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-display: swap;
+  /* Nur für arabische Zeichen: Der Browser lädt die Datei erst, wenn
+     arabischer Text auf der Seite steht (sonst 230 KB umsonst) */
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-08FF, U+FB50-FDFF, U+FE70-FEFF;
 }
 /* Serifenschrift nur für Überschriften: gibt der Seite Bericht-Charakter */
 @font-face {

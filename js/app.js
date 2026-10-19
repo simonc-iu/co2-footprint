@@ -166,7 +166,7 @@ function zeigeSortierung() {
     if (knopf.dataset.schluessel === sortierung.schluessel) {
       const aufsteigend = sortierung.richtung === 'aufsteigend';
       kopfzelle.setAttribute('aria-sort', aufsteigend ? 'ascending' : 'descending');
-      pfeil.textContent = aufsteigend ? '▲' : '▼';
+      pfeil.textContent = aufsteigend ? '↑' : '↓'; // diese Pfeile enthält IBM Plex Sans
     } else {
       kopfzelle.removeAttribute('aria-sort');
       pfeil.textContent = '';
