@@ -243,18 +243,22 @@ main section { margin-block-start: 3rem; }
   font-variant-numeric: tabular-nums;
 }
 
-/* Lange Wörter (z. B. zusammengesetzte Firmennamen) innerhalb der Zelle trennen,
-   statt in die Nachbarspalte zu schreiben. Silbentrennung nach lang="de". */
+/* Lange Wörter (z. B. zusammengesetzte Firmennamen) innerhalb der Zelle umbrechen,
+   statt in die Nachbarspalte zu schreiben. Nur Wörter, die nicht in die Zelle passen,
+   werden umbrochen (ohne Trennstrich). Automatische Silbentrennung (hyphens: auto)
+   trennte auf dem Smartphone auch normale Wörter ("Petro-leum") und ist daher aus. */
 #daten td {
   overflow-wrap: break-word;
-  hyphens: auto;
 }
 
 /* Kleine Smartphones (unter 576 px, z. B. 320 px): etwas kleinere Tabellenschrift,
    ausgeglichene Spalten, Balken unter der Zahl statt daneben. So bekommt der Balken
    die ganze Spaltenbreite und nichts wird abgeschnitten. */
 @media (width < 576px) {
-  #daten .table { font-size: 0.875rem; }
+  #daten .table {
+    font-size: 0.875rem;
+    --bs-table-cell-padding-x: 0.25rem; /* weniger Innenabstand, damit z. B. "Deutschland" in die Zelle passt */
+  }
   #daten th:nth-child(1) { inline-size: 34%; }
   #daten th:nth-child(2) { inline-size: 33%; }
   #daten th:nth-child(5) { inline-size: 33%; }
