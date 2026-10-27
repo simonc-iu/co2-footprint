@@ -23,13 +23,18 @@ const sortierung = {
   richtung: 'absteigend'
 };
 
-// Spaltennamen für die Statuszeile, z. B. "sortiert nach Land"
-const spaltenNamen = {
-  unternehmen: 'Unternehmen',
-  land: 'Land',
-  branche: 'Branche',
-  jahr: 'Jahr',
-  emissionen: 'Emissionen'
+// Aktuelle Sprache der Oberfläche: 'de' oder 'ar' (Texte in js/texte.js)
+let sprache = 'de';
+
+// Sprachumschalter im Header
+const sprachwahl = document.querySelector('.sprachwahl');
+const sprachKnoepfe = document.querySelectorAll('.sprachwahl-knopf');
+
+// Zahlenformat je Sprache. Im Arabischen mit westlichen Ziffern (nu-latn),
+// damit die Zahlen zu den deutschen Daten passen und gut vergleichbar bleiben.
+const zahlenFormate = {
+  de: 'de-DE',
+  ar: 'ar-u-nu-latn'
 };
 
 // Klassen für Spalten, die erst ab 1024 px Breite erscheinen.
@@ -39,9 +44,9 @@ const nurBreit = 'd-none lg:d-table-cell';
 // Höchster Emissionswert im gesamten Datensatz, Bezugsgröße für die Balken
 let hoechsterWert = 0;
 
-// Zahl im deutschen Format mit genau einer Nachkommastelle, z. B. 182,4
+// Zahl mit genau einer Nachkommastelle im Format der Sprache, z. B. 182,4
 function formatiereZahl(zahl) {
-  return zahl.toLocaleString('de-DE', {
+  return zahl.toLocaleString(zahlenFormate[sprache], {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1
   });
@@ -55,6 +60,14 @@ function erstelleZelle(text, klasse) {
   if (klasse) {
     zelle.className = klasse;
   }
+  return zelle;
+}
+
+// Zelle mit deutschem Text aus den Daten. lang="de" sagt Screenreadern,
+// dass sie das Wort deutsch aussprechen sollen, auch in der arabischen Ansicht.
+function erstelleDatenZelle(text, klasse) {
+  const zelle = erstelleZelle(text, klasse);
+  zelle.lang = 'de';
   return zelle;
 }
 
@@ -93,9 +106,9 @@ function zeigeTabelle(eintraege) {
   eintraege.forEach(function (eintrag) {
     const zeile = document.createElement('tr');
     zeile.append(
-      erstelleZelle(eintrag.unternehmen),
-      erstelleZelle(eintrag.land),
-      erstelleZelle(eintrag.branche, nurBreit),
+      erstelleDatenZelle(eintrag.unternehmen),
+      erstelleDatenZelle(eintrag.land),
+      erstelleDatenZelle(eintrag.branche, nurBreit),
       erstelleZelle(eintrag.jahr, 'text-end ' + nurBreit),
       erstelleEmissionsZelle(eintrag.emissionen)
     );
@@ -176,19 +189,22 @@ function zeigeSortierung() {
 
 // Zeigt in der Statuszeile, wie viele Einträge passen und wie sortiert ist
 function zeigeTrefferanzahl(anzahl) {
+  const t = texte[sprache];
+
   if (anzahl === 0) {
-    meldung.textContent = 'Keine Einträge gefunden. Bitte die Filter ändern oder zurücksetzen.';
+    meldung.textContent = t.meldung_leer;
     return;
   }
 
-  let text;
-  if (anzahl === datensaetze.length) {
-    text = 'Alle ' + anzahl + ' Einträge';
-  } else {
-    text = anzahl + ' von ' + datensaetze.length + ' Einträgen';
-  }
-  meldung.textContent = text + ', sortiert nach ' + spaltenNamen[sortierung.schluessel] +
-    ' (' + sortierung.richtung + ')';
+  // Vorlage wählen und Platzhalter durch Werte ersetzen
+  const vorlage = anzahl === datensaetze.length ? t.eintraege_alle : t.eintraege_teil;
+  const treffer = vorlage
+    .replace('{anzahl}', anzahl)
+    .replace('{gesamt}', datensaetze.length);
+  const sortiert = t.sortiert_nach.replace('{spalte}', t[sortierung.schluessel]);
+
+  // sortierung.richtung ist 'aufsteigend' oder 'absteigend', passt zu den Schlüsseln in texte
+  meldung.textContent = treffer + t.trenner + sortiert + ' (' + t[sortierung.richtung] + ')';
 }
 
 // Filtert, baut die Tabelle neu und aktualisiert die Trefferanzahl.
@@ -240,7 +256,7 @@ sortierKnoepfe.forEach(function (knopf) {
 // Lädt die Daten vom eigenen Server und zeigt sie an.
 // Geht etwas schief, erscheint eine Meldung statt einer leeren Tabelle.
 async function ladeDaten() {
-  meldung.textContent = 'Daten werden geladen …';
+  meldung.textContent = texte[sprache].meldung_laden;
 
   try {
     const antwort = await fetch('data/emissionen.json');
@@ -262,11 +278,67 @@ async function ladeDaten() {
     aktualisiereAnsicht(); // zeigt auch die Tabelle, sofern es Treffer gibt
     filterFormular.hidden = false;
   } catch (fehler) {
-    meldung.textContent = 'Die Daten konnten nicht geladen werden. Bitte die Seite später neu laden.';
+    meldung.textContent = texte[sprache].meldung_fehler;
     meldung.classList.add('ist-fehler');
     // Filter und Tabelle bleiben versteckt (im HTML mit hidden vorbelegt)
     console.error(fehler); // technische Details nur für Entwickler in der Konsole
   }
 }
 
+// ---------- Sprache (Anforderung c) ----------
+
+// Welche Sprache beim Öffnen? 1. Adresse (?sprache=ar), z. B. nach dem Umschalten
+// oder für Tests; 2. Spracheinstellung des Browsers (navigator.language);
+// 3. sonst Deutsch. Nur 'de' und 'ar' sind erlaubt, alles andere wird ignoriert.
+function ermittleSprache() {
+  const ausAdresse = new URLSearchParams(location.search).get('sprache');
+  if (ausAdresse === 'de' || ausAdresse === 'ar') {
+    return ausAdresse;
+  }
+  return navigator.language.startsWith('ar') ? 'ar' : 'de';
+}
+
+// Schaltet die ganze Oberfläche um: Texte, Leserichtung, Sprachangabe
+function setzeSprache(neueSprache) {
+  sprache = neueSprache;
+  const t = texte[sprache];
+
+  // lang und dir am <html>: Arabisch wird von rechts nach links gesetzt.
+  // Das CSS nutzt logische Eigenschaften, das Layout spiegelt sich dadurch von selbst.
+  document.documentElement.lang = sprache;
+  document.documentElement.dir = sprache === 'ar' ? 'rtl' : 'ltr';
+  document.title = t.titel + ' – CO₂-Footprint';
+
+  // Sichtbare Texte (nur textContent, nie innerHTML)
+  document.querySelectorAll('[data-text]').forEach(function (element) {
+    element.textContent = t[element.dataset.text];
+  });
+
+  // Unsichtbare Beschriftungen für Screenreader
+  document.querySelectorAll('[data-text-label]').forEach(function (element) {
+    element.setAttribute('aria-label', t[element.dataset.textLabel]);
+  });
+
+  // Gedrückter Zustand der Umschalter-Knöpfe
+  sprachKnoepfe.forEach(function (knopf) {
+    knopf.setAttribute('aria-pressed', knopf.dataset.sprache === sprache ? 'true' : 'false');
+  });
+
+  // Tabelle und Statuszeile neu aufbauen (Zahlenformat, Meldungstext)
+  if (datensaetze.length > 0) {
+    aktualisiereAnsicht();
+  }
+}
+
+// Klick auf "Deutsch" oder "العربية": umschalten und die Wahl in die Adresse
+// schreiben, damit sie beim Neuladen erhalten bleibt (ohne Cookie oder Speicher)
+sprachKnoepfe.forEach(function (knopf) {
+  knopf.addEventListener('click', function () {
+    setzeSprache(knopf.dataset.sprache);
+    history.replaceState(null, '', '?sprache=' + sprache);
+  });
+});
+
+setzeSprache(ermittleSprache());
+sprachwahl.hidden = false; // Umschalter erst zeigen, wenn JavaScript läuft
 ladeDaten();

@@ -119,6 +119,38 @@ main p { max-width: 70ch; } /* Zeilenlänge begrenzen (Bühler et al., 2023, S. 
   text-underline-offset: 0.4em;
 }
 
+/* Sprachumschalter: wirkt wie die Navigation, gewählte Sprache fett,
+   die andere als Link in Akzentfarbe */
+.sprachwahl {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* feine Linie trennt den Umschalter von der Navigation */
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid var(--farbe-linie);
+  font-size: 0.9375rem;
+  color: var(--farbe-meta);
+}
+.sprachwahl-knopf {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--farbe-akzent);
+  cursor: pointer;
+}
+.sprachwahl-knopf:hover { text-decoration: underline; }
+/* Das Wort "العربية" in der Systemschrift: sonst lädt die deutsche Ansicht
+   für dieses eine Wort die arabische Webschrift (ca. 225 KB) nach */
+.sprachwahl-knopf[lang="ar"] {
+  font-family: system-ui, sans-serif;
+}
+.sprachwahl-knopf[aria-pressed="true"] {
+  color: var(--farbe-text);
+  font-weight: 600;
+  cursor: default;
+}
+
 /* ---------- Überschriften ---------- */
 h1, h2, h3 { font-weight: 600; }
 /* Überschriften in Serifenschrift; Arabisch fällt auf Plex Sans Arabic zurück */
