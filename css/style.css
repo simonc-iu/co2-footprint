@@ -119,6 +119,13 @@ main p { max-width: 70ch; } /* Zeilenlänge begrenzen (Bühler et al., 2023, S. 
   text-underline-offset: 0.4em;
 }
 
+/* Ohne JavaScript ausblenden, was nur mit JavaScript funktioniert.
+   Die Klasse .js setzt ein kleines Skript im <head>, bevor die Seite erscheint. */
+html:not(.js) .sprachwahl,
+html:not(.js) .filter {
+  display: none;
+}
+
 /* Sprachumschalter: wirkt wie die Navigation, gewählte Sprache fett,
    die andere als Link in Akzentfarbe */
 .sprachwahl {
@@ -330,6 +337,12 @@ main section { margin-block-start: 3rem; }
 .filter .btn {
   --bs-btn-color: var(--farbe-akzent);
   --bs-btn-border-color: var(--farbe-akzent);
+}
+
+/* Platz für die Tabelle freihalten, solange die Daten laden: Der Abschnitt
+   darunter rutscht so nicht sichtbar nach unten (Layout-Verschiebung, CLS) */
+.js .tabellen-bereich[data-laedt] {
+  min-block-size: 100vh;
 }
 
 /* Statuszeile: gedämpft, im Fehlerfall rot und fett */

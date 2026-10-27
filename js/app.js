@@ -7,6 +7,9 @@ let datensaetze = [];
 // Der <tbody>, in den die Zeilen eingefügt werden
 const tabelleInhalt = document.getElementById('tabelle-inhalt');
 
+// Bereich um die Tabelle, hält beim Laden Platz frei
+const tabellenBereich = document.querySelector('.tabellen-bereich');
+
 // Die Statuszeile über der Tabelle
 const meldung = document.getElementById('daten-meldung');
 
@@ -272,12 +275,15 @@ async function ladeDaten() {
 
     fuelleLaenderListe();
     aktualisiereAnsicht(); // zeigt auch die Tabelle, sofern es Treffer gibt
-    filterFormular.hidden = false;
   } catch (fehler) {
     meldung.textContent = text('meldung_fehler');
     meldung.classList.add('ist-fehler');
-    // Filter und Tabelle bleiben versteckt (im HTML mit hidden vorbelegt)
+    filterFormular.hidden = true; // ohne Daten gibt es nichts zu filtern
     console.error(fehler); // technische Details nur für Entwickler in der Konsole
+  } finally {
+    // Geladen oder fehlgeschlagen: reservierten Platz freigeben
+    // (finally läuft in beiden Fällen, nach try bzw. catch)
+    tabellenBereich.removeAttribute('data-laedt');
   }
 }
 

@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Markiert sofort, dass JavaScript läuft. So zeigt das CSS Umschalter und Filter
+       vom ersten Bild an, statt sie später einzublenden (sonst springt das Layout) -->
+  <script>document.documentElement.classList.add('js');</script>
   <title>CO₂-Emissionen nach Land und Unternehmen – CO₂-Footprint</title>
   <meta name="description" content="Öffentliche Übersicht fiktiver CO2-Emissionsdaten, filterbar nach Land und Unternehmen.">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
@@ -32,8 +35,8 @@
           </ul>
         </nav>
         <!-- Sprachumschalter: Sprachnamen stehen immer in der eigenen Sprache.
-             Wird von js/app.js eingeblendet (ohne JavaScript nutzlos). -->
-        <div class="sprachwahl" role="group" aria-label="Sprache" data-text-label="label_sprache" hidden>
+             Nur sichtbar, wenn JavaScript läuft (CSS-Regel .js), sonst nutzlos. -->
+        <div class="sprachwahl" role="group" aria-label="Sprache" data-text-label="label_sprache">
           <button type="button" class="sprachwahl-knopf" data-sprache="de" lang="de" aria-pressed="true">Deutsch</button>
           <span aria-hidden="true">|</span>
           <button type="button" class="sprachwahl-knopf" data-sprache="ar" lang="ar" dir="rtl" aria-pressed="false">العربية</button>
@@ -76,9 +79,9 @@
           </noscript>
 
           <!-- Filter: wirken sofort beim Tippen, ein Absenden ist nicht nötig.
-               Filter und Tabelle sind zunächst versteckt, js/app.js zeigt sie,
-               sobald die Daten geladen sind. -->
-          <form id="filter" class="filter" role="search" aria-label="Tabelle filtern" data-text-label="label_filter" hidden>
+               Ohne JavaScript per CSS ausgeblendet (.js), die Tabelle zeigt js/app.js
+               nach dem Laden der Daten. -->
+          <form id="filter" class="filter" role="search" aria-label="Tabelle filtern" data-text-label="label_filter">
             <div class="filter-feld">
               <label for="filter-land" class="form-label" data-text="land">Land</label>
               <input type="search" id="filter-land" class="form-control"
@@ -98,7 +101,8 @@
 
           <!-- Statuszeile: Laden, Fehler, Trefferanzahl -->
           <p id="daten-meldung" class="daten-meldung" role="status"></p>
-          <div class="table-responsive">
+          <!-- data-laedt reserviert Platz, bis die Daten da sind (verhindert Springen) -->
+          <div class="table-responsive tabellen-bereich" data-laedt>
             <table class="table" hidden>
               <!-- Beschriftung nur für Screenreader: sichtbar sagen h2, Meta-Zeile und Statuszeile dasselbe -->
               <caption class="visually-hidden" data-text="tabellenbeschriftung">CO₂-Emissionen nach Unternehmen (fiktive Werte)</caption>

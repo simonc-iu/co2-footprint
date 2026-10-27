@@ -5,8 +5,7 @@
 // Aktuelle Sprache der Oberfläche: 'de' oder 'ar'
 let sprache = 'de';
 
-// Sprachumschalter im Header
-const sprachwahl = document.querySelector('.sprachwahl');
+// Knöpfe des Sprachumschalters im Header (sichtbar über die CSS-Klasse .js)
 const sprachKnoepfe = document.querySelectorAll('.sprachwahl-knopf');
 
 // Welche Sprache beim Öffnen? 1. Adresse (?sprache=ar), z. B. nach dem Umschalten
@@ -80,4 +79,3 @@ sprachKnoepfe.forEach(function (knopf) {
 });
 
 setzeSprache(ermittleSprache());
-sprachwahl.hidden = false; // Umschalter erst zeigen, wenn JavaScript läuft

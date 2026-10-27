@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Markiert sofort, dass JavaScript läuft. So zeigt das CSS Umschalter und Filter
+       vom ersten Bild an, statt sie später einzublenden (sonst springt das Layout) -->
+  <script>document.documentElement.classList.add('js');</script>
   <title>Impressum – CO₂-Footprint</title>
   <meta name="description" content="Impressum der fiktiven Stiftung Offene Klimabilanz.">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
@@ -31,8 +34,8 @@
           </ul>
         </nav>
         <!-- Sprachumschalter: Sprachnamen stehen immer in der eigenen Sprache.
-             Wird von js/app.js eingeblendet (ohne JavaScript nutzlos). -->
-        <div class="sprachwahl" role="group" aria-label="Sprache" data-text-label="label_sprache" hidden>
+             Nur sichtbar, wenn JavaScript läuft (CSS-Regel .js), sonst nutzlos. -->
+        <div class="sprachwahl" role="group" aria-label="Sprache" data-text-label="label_sprache">
           <button type="button" class="sprachwahl-knopf" data-sprache="de" lang="de" aria-pressed="true">Deutsch</button>
           <span aria-hidden="true">|</span>
           <button type="button" class="sprachwahl-knopf" data-sprache="ar" lang="ar" dir="rtl" aria-pressed="false">العربية</button>
