@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Über uns – CO₂-Footprint</title>
+  <meta name="description" content="Die fiktive Stiftung Offene Klimabilanz: Auftrag und Arbeitsweise.">
+  <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Reihenfolge wichtig: erst die Texte, dann die Sprachumschaltung (defer hält sie ein) -->
+  <script src="js/texte.js" defer></script>
+  <script src="js/sprache.js" defer></script>
+</head>
+<body data-titel="nav_ueber_uns">
+  <!-- Sprunglink: Tastaturnutzer springen direkt zum Inhalt -->
+  <a class="skip-link" href="#inhalt" data-text="sprunglink">Zum Inhalt springen</a>
+
+  <!-- Header: Logo, Titel, globale Navigation -->
+  <header class="site-header">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+      <a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
+        <img src="img/logo.svg" alt="" width="40" height="40">
+        <span class="brand-name">CO₂-Footprint</span>
+      </a>
+      <div class="d-flex flex-wrap align-items-center gap-4">
+        <nav aria-label="Hauptnavigation" data-text-label="label_hauptnavigation">
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="index.html" data-text="nav_emissionsdaten">Emissionsdaten</a></li>
+            <li class="nav-item"><a class="nav-link" href="methodik.html" data-text="nav_methodik">Methodik</a></li>
+            <li class="nav-item"><a class="nav-link" href="ueber-uns.html" aria-current="page" data-text="nav_ueber_uns">Über uns</a></li>
+          </ul>
+        </nav>
+        <!-- Sprachumschalter: Sprachnamen stehen immer in der eigenen Sprache.
+             Wird von js/app.js eingeblendet (ohne JavaScript nutzlos). -->
+        <div class="sprachwahl" role="group" aria-label="Sprache" data-text-label="label_sprache" hidden>
+          <button type="button" class="sprachwahl-knopf" data-sprache="de" lang="de" aria-pressed="true">Deutsch</button>
+          <span aria-hidden="true">|</span>
+          <button type="button" class="sprachwahl-knopf" data-sprache="ar" lang="ar" dir="rtl" aria-pressed="false">العربية</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container py-4">
+    <div class="row g-4">
+      <!-- Lokales Menü: Links innerhalb dieser Seite -->
+      <nav class="local-nav md:col-3 xl:col-2" aria-labelledby="local-nav-titel">
+        <div class="local-nav-inhalt">
+          <p class="local-nav-titel" id="local-nav-titel" data-text="lokal_titel">Auf dieser Seite</p>
+          <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#auftrag" data-text="u_auftrag">Unser Auftrag</a></li>
+            <li class="nav-item"><a class="nav-link" href="#arbeitsweise" data-text="u_arbeitsweise">Wie wir arbeiten</a></li>
+            <li class="nav-item"><a class="nav-link" href="#kontakt" data-text="kontakt">Kontakt</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Inhaltsbereich -->
+      <main id="inhalt" class="md:col-9 xl:col-10">
+        <h1 data-text="nav_ueber_uns">Über uns</h1>
+        <!-- erscheint nur in der arabischen Ansicht (js/sprache.js) -->
+        <p class="nur-deutsch-hinweis" data-text="nur_deutsch" data-nur-arabisch hidden>Dieser Inhalt ist nur auf Deutsch verfügbar.</p>
+
+        <section id="auftrag">
+          <h2 data-text="u_auftrag">Unser Auftrag</h2>
+          <!-- Fließtext nur auf Deutsch: lang und dir, damit er auch in der arabischen Ansicht richtig gelesen wird -->
+          <div lang="de" dir="ltr">
+            <p>Die Stiftung Offene Klimabilanz ist eine <strong>fiktive</strong> gemeinnützige Organisation. Sie macht sichtbar, wie viel CO₂ Unternehmen und Länder jährlich ausstoßen, und stellt diese Zahlen frei zugänglich, vergleichbar und verständlich dar.</p>
+            <p>Transparenz soll eine sachliche Debatte über Klimaschutz ermöglichen: Wer weiß, wo die großen Emissionen entstehen, kann gezielter fragen, was sich dort ändern muss.</p>
+          </div>
+        </section>
+
+        <section id="arbeitsweise">
+          <h2 data-text="u_arbeitsweise">Wie wir arbeiten</h2>
+          <!-- Fließtext nur auf Deutsch: lang und dir, damit er auch in der arabischen Ansicht richtig gelesen wird -->
+          <div lang="de" dir="ltr">
+            <p><strong>Offen:</strong> Die Daten der Tabelle liegen in einer einfachen Datei vor und lassen sich ohne Anmeldung ansehen, filtern und sortieren.</p>
+            <p><strong>Unabhängig:</strong> Die Website zeigt keine Werbung und bindet keine Inhalte fremder Anbieter ein.</p>
+            <p><strong>Für alle:</strong> Die Seite ist auf Bildschirmen jeder Größe nutzbar, per Tastatur bedienbar und in der Oberfläche auf Deutsch und Arabisch verfügbar.</p>
+          </div>
+        </section>
+
+        <section id="kontakt">
+          <h2 data-text="kontakt">Kontakt</h2>
+          <!-- Fließtext nur auf Deutsch: lang und dir, damit er auch in der arabischen Ansicht richtig gelesen wird -->
+          <div lang="de" dir="ltr">
+            <p>Anschrift und Kontaktmöglichkeiten stehen im <a href="impressum.html">Impressum</a>.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container d-flex flex-wrap justify-content-between gap-3 py-3">
+      <nav aria-label="Rechtliches" data-text-label="label_rechtliches">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="impressum.html" data-text="impressum">Impressum</a></li>
+          <li class="nav-item"><a class="nav-link" href="datenschutz.html" data-text="datenschutz">Datenschutz</a></li>
+        </ul>
+      </nav>
+      <p class="mb-0">© 2026 <span lang="de">Stiftung Offene Klimabilanz</span> (<span data-text="organisation_fiktiv">fiktive Organisation</span>)</p>
+    </div>
+  </footer>
+</body>
+</html>

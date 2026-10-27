@@ -1,3 +1,6 @@
+// Datentabelle der Startseite: Laden, Anzeigen, Filtern, Sortieren.
+// Die Sprache (Variable sprache, Funktion text) kommt aus js/sprache.js.
+
 // Alle Einträge aus der JSON-Datei, Grundlage für Filter und Sortierung
 let datensaetze = [];
 
@@ -22,13 +25,6 @@ const sortierung = {
   schluessel: 'emissionen',
   richtung: 'absteigend'
 };
-
-// Aktuelle Sprache der Oberfläche: 'de' oder 'ar' (Texte in js/texte.js)
-let sprache = 'de';
-
-// Sprachumschalter im Header
-const sprachwahl = document.querySelector('.sprachwahl');
-const sprachKnoepfe = document.querySelectorAll('.sprachwahl-knopf');
 
 // Zahlenformat je Sprache. Im Arabischen mit westlichen Ziffern (nu-latn),
 // damit die Zahlen zu den deutschen Daten passen und gut vergleichbar bleiben.
@@ -189,7 +185,7 @@ function zeigeSortierung() {
 
 // Zeigt in der Statuszeile, wie viele Einträge passen und wie sortiert ist
 function zeigeTrefferanzahl(anzahl) {
-  const t = texte[sprache];
+  const t = texte[sprache]; // kurzer Name für die Texte der aktuellen Sprache
 
   if (anzahl === 0) {
     meldung.textContent = t.meldung_leer;
@@ -256,7 +252,7 @@ sortierKnoepfe.forEach(function (knopf) {
 // Lädt die Daten vom eigenen Server und zeigt sie an.
 // Geht etwas schief, erscheint eine Meldung statt einer leeren Tabelle.
 async function ladeDaten() {
-  meldung.textContent = texte[sprache].meldung_laden;
+  meldung.textContent = text('meldung_laden');
 
   try {
     const antwort = await fetch('data/emissionen.json');
@@ -278,67 +274,19 @@ async function ladeDaten() {
     aktualisiereAnsicht(); // zeigt auch die Tabelle, sofern es Treffer gibt
     filterFormular.hidden = false;
   } catch (fehler) {
-    meldung.textContent = texte[sprache].meldung_fehler;
+    meldung.textContent = text('meldung_fehler');
     meldung.classList.add('ist-fehler');
     // Filter und Tabelle bleiben versteckt (im HTML mit hidden vorbelegt)
     console.error(fehler); // technische Details nur für Entwickler in der Konsole
   }
 }
 
-// ---------- Sprache (Anforderung c) ----------
-
-// Welche Sprache beim Öffnen? 1. Adresse (?sprache=ar), z. B. nach dem Umschalten
-// oder für Tests; 2. Spracheinstellung des Browsers (navigator.language);
-// 3. sonst Deutsch. Nur 'de' und 'ar' sind erlaubt, alles andere wird ignoriert.
-function ermittleSprache() {
-  const ausAdresse = new URLSearchParams(location.search).get('sprache');
-  if (ausAdresse === 'de' || ausAdresse === 'ar') {
-    return ausAdresse;
-  }
-  return navigator.language.startsWith('ar') ? 'ar' : 'de';
-}
-
-// Schaltet die ganze Oberfläche um: Texte, Leserichtung, Sprachangabe
-function setzeSprache(neueSprache) {
-  sprache = neueSprache;
-  const t = texte[sprache];
-
-  // lang und dir am <html>: Arabisch wird von rechts nach links gesetzt.
-  // Das CSS nutzt logische Eigenschaften, das Layout spiegelt sich dadurch von selbst.
-  document.documentElement.lang = sprache;
-  document.documentElement.dir = sprache === 'ar' ? 'rtl' : 'ltr';
-  document.title = t.titel + ' – CO₂-Footprint';
-
-  // Sichtbare Texte (nur textContent, nie innerHTML)
-  document.querySelectorAll('[data-text]').forEach(function (element) {
-    element.textContent = t[element.dataset.text];
-  });
-
-  // Unsichtbare Beschriftungen für Screenreader
-  document.querySelectorAll('[data-text-label]').forEach(function (element) {
-    element.setAttribute('aria-label', t[element.dataset.textLabel]);
-  });
-
-  // Gedrückter Zustand der Umschalter-Knöpfe
-  sprachKnoepfe.forEach(function (knopf) {
-    knopf.setAttribute('aria-pressed', knopf.dataset.sprache === sprache ? 'true' : 'false');
-  });
-
-  // Tabelle und Statuszeile neu aufbauen (Zahlenformat, Meldungstext)
+// Bei einem Sprachwechsel (js/sprache.js) Tabelle und Statuszeile neu aufbauen,
+// damit Zahlenformat und Meldungstext zur Sprache passen
+document.addEventListener('sprachwechsel', function () {
   if (datensaetze.length > 0) {
     aktualisiereAnsicht();
   }
-}
-
-// Klick auf "Deutsch" oder "العربية": umschalten und die Wahl in die Adresse
-// schreiben, damit sie beim Neuladen erhalten bleibt (ohne Cookie oder Speicher)
-sprachKnoepfe.forEach(function (knopf) {
-  knopf.addEventListener('click', function () {
-    setzeSprache(knopf.dataset.sprache);
-    history.replaceState(null, '', '?sprache=' + sprache);
-  });
 });
 
-setzeSprache(ermittleSprache());
-sprachwahl.hidden = false; // Umschalter erst zeigen, wenn JavaScript läuft
 ladeDaten();

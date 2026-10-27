@@ -40,7 +40,23 @@ const texte = {
     impressum: 'Impressum',
     datenschutz: 'Datenschutz',
     organisation_fiktiv: 'fiktive Organisation',
-    label_sprache: 'Sprache'
+    label_sprache: 'Sprache',
+
+    // Unterseiten: Überschriften und lokale Menüs (der Fließtext bleibt deutsch)
+    nur_deutsch: 'Dieser Inhalt ist nur auf Deutsch verfügbar.',
+    kontakt: 'Kontakt',
+    m_datengrundlage: 'Datengrundlage',
+    m_darstellung: 'Darstellung in der Tabelle',
+    m_grenzen: 'Grenzen der Daten',
+    u_auftrag: 'Unser Auftrag',
+    u_arbeitsweise: 'Wie wir arbeiten',
+    i_anbieter: 'Anbieter',
+    i_verantwortlich: 'Verantwortlich für den Inhalt',
+    i_hinweis: 'Hinweis',
+    d_kurz: 'Das Wichtigste in Kürze',
+    d_verantwortlich: 'Verantwortliche Stelle',
+    d_daten: 'Welche Daten verarbeitet werden',
+    d_rechte: 'Ihre Rechte'
   },
   ar: {
     sprunglink: 'الانتقال إلى المحتوى',
@@ -79,6 +95,22 @@ const texte = {
     impressum: 'بيانات النشر',
     datenschutz: 'حماية البيانات',
     organisation_fiktiv: 'منظمة خيالية',
-    label_sprache: 'اللغة'
+    label_sprache: 'اللغة',
+
+    // Unterseiten. Fehlende Übersetzungen zeigt js/sprache.js automatisch deutsch an.
+    nur_deutsch: 'هذا المحتوى متاح باللغة الألمانية فقط.',
+    kontakt: 'الاتصال',
+    m_datengrundlage: 'أساس البيانات',
+    m_darstellung: 'العرض في الجدول',
+    m_grenzen: 'حدود البيانات',
+    u_auftrag: 'مهمتنا',
+    u_arbeitsweise: 'كيف نعمل',
+    i_anbieter: 'المزودون',
+    i_verantwortlich: 'المسؤول عن المحتوى',
+    i_hinweis: 'ملاحظة',
+    d_kurz: 'أهم النقاط باختصار',
+    d_verantwortlich: 'الجهة المسؤولة',
+    d_daten: 'البيانات التي يتم معالجتها',
+    d_rechte: 'حقوقك'
   }
 };

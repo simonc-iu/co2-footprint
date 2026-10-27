@@ -7,11 +7,12 @@
   <meta name="description" content="Öffentliche Übersicht fiktiver CO2-Emissionsdaten, filterbar nach Land und Unternehmen.">
   <link rel="stylesheet" href="vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <!-- Reihenfolge wichtig: erst die Texte, dann das Programm (defer hält sie ein) -->
+  <!-- Reihenfolge wichtig: Texte, Sprachumschaltung, dann die Tabelle (defer hält sie ein) -->
   <script src="js/texte.js" defer></script>
+  <script src="js/sprache.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
-<body>
+<body data-titel="titel">
   <!-- Sprunglink: Tastaturnutzer springen direkt zum Inhalt -->
   <a class="skip-link" href="#inhalt" data-text="sprunglink">Zum Inhalt springen</a>
 
