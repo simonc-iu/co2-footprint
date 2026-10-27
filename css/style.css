@@ -42,7 +42,7 @@
   --farbe-text: #1B2430;
   --farbe-akzent: #0B5E7A;
   --farbe-akzent-dunkel: #074054;
-  --farbe-balken: #CFE3EA;
+  --farbe-balken: #5E97AD; /* Kontrast 3,23 : 1 zu Weiß, WCAG 1.4.11 (Grafiken ≥ 3 : 1) */
   --farbe-linie: #D5DBE1;
   --farbe-fehler: #B3261E;
   --farbe-meta: #5B6673;    /* gedämpfter Text, z. B. Quellenangaben */
@@ -250,7 +250,9 @@ main section { margin-block-start: 3rem; }
 }
 .sortier-pfeil {
   color: var(--farbe-akzent);
-  font-size: 0.75em;
+  font-size: 1.125em; /* gut sichtbar: zeigt, wonach sortiert ist */
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* Emissionsspalte: Balken (Länge proportional zum Wert) und Zahl nebeneinander.

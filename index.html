@@ -100,7 +100,8 @@
           <p id="daten-meldung" class="daten-meldung" role="status"></p>
           <div class="table-responsive">
             <table class="table" hidden>
-              <caption data-text="tabellenbeschriftung">CO₂-Emissionen nach Unternehmen (fiktive Werte)</caption>
+              <!-- Beschriftung nur für Screenreader: sichtbar sagen h2, Meta-Zeile und Statuszeile dasselbe -->
+              <caption class="visually-hidden" data-text="tabellenbeschriftung">CO₂-Emissionen nach Unternehmen (fiktive Werte)</caption>
               <thead>
                 <tr>
                   <!-- Jeder Spaltenkopf ist ein Knopf zum Sortieren (Tastatur, Screenreader).
@@ -142,6 +143,8 @@
         <section id="hinweise">
           <h2 data-text="hinweise">Hinweise zu den Daten</h2>
           <p data-text="hinweis_fiktiv">Alle Werte auf dieser Seite sind frei erfunden.</p>
+          <!-- Satz endet mit Doppelpunkt, der Link folgt: funktioniert in beiden Sprachen ohne Umstellen -->
+          <p><span data-text="hinweis_methodik">Mehr zu Herkunft, Darstellung und Grenzen der Daten:</span> <a href="methodik.html" data-text="nav_methodik">Methodik</a></p>
         </section>
       </main>
     </div>
