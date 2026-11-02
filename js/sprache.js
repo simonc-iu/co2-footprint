@@ -8,16 +8,7 @@ let sprache = 'de';
 // Knöpfe des Sprachumschalters im Header (sichtbar über die CSS-Klasse .js)
 const sprachKnoepfe = document.querySelectorAll('.sprachwahl-knopf');
 
-// Welche Sprache beim Öffnen? 1. Adresse (?sprache=ar), z. B. nach dem Umschalten
-// oder für Tests; 2. Spracheinstellung des Browsers (navigator.language);
-// 3. sonst Deutsch. Nur 'de' und 'ar' sind erlaubt, alles andere wird ignoriert.
-function ermittleSprache() {
-  const ausAdresse = new URLSearchParams(location.search).get('sprache');
-  if (ausAdresse === 'de' || ausAdresse === 'ar') {
-    return ausAdresse;
-  }
-  return navigator.language.startsWith('ar') ? 'ar' : 'de';
-}
+// ermittleSprache() steht in js/sprache-frueh.js, das schon im <head> geladen wird
 
 // Text zu einem Schlüssel. Fehlt eine Übersetzung, steht der deutsche Text da.
 function text(schluessel) {
@@ -69,12 +60,12 @@ function setzeSprache(neueSprache) {
   document.dispatchEvent(new CustomEvent('sprachwechsel'));
 }
 
-// Klick auf "Deutsch" oder "العربية": umschalten und die Wahl in die Adresse
-// schreiben, damit sie beim Neuladen erhalten bleibt
+// Klick auf "Deutsch" oder "العربية": Seite in der gewählten Sprache neu laden
 sprachKnoepfe.forEach(function (knopf) {
   knopf.addEventListener('click', function () {
-    setzeSprache(knopf.dataset.sprache);
-    history.replaceState(null, '', '?sprache=' + sprache);
+    // Neu laden statt im laufenden Betrieb umschalten: Nur so kommt die Sprache
+    // auch beim Screenreader an (Test E21). Die Adresse merkt sich die Wahl.
+    location.replace('?sprache=' + knopf.dataset.sprache);
   });
 });
 
