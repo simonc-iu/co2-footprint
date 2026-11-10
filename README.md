@@ -14,6 +14,11 @@ python3 -m http.server
 
 Danach ist die Seite unter http://localhost:8000 erreichbar. Ein Build-Schritt oder eine Installation ist nicht nötig.
 
+## Verwendete Bibliotheken und Schriften
+
+- [Bootstrap](https://getbootstrap.com/) 6 (nur CSS, lokal unter `vendor/bootstrap/`), MIT-Lizenz, siehe `vendor/bootstrap/LICENSE`
+- [IBM Plex](https://github.com/IBM/plex) Sans, Serif und Sans Arabic (lokal unter `fonts/`), SIL Open Font License 1.1, siehe `fonts/OFL.txt`
+
 ## Hintergrund
 
 Das Projekt ist im Rahmen einer Fallstudie für den Kurs „Programmierung von Webanwendungsoberflächen” an der IU Internationale Hochschule entstanden und wurde von Simon Cülter umgesetzt.
